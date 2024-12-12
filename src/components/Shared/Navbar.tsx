@@ -11,11 +11,9 @@ import { RxAvatar } from "react-icons/rx";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null); // State to store userId
-  const urls = ["http://localhost:8000/api/v1/users/logout"];
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if localStorage is available
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id");
       setUserId(id);
@@ -29,19 +27,12 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const requests = urls.map((url) =>
-        axios.get(url, {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("id")}`,
-          },
-        })
-      );
-      const res = await Promise.any(requests);
-      if (res.status == 200) {
+      const res = await axios.post("/api/v1/users/logout");
+      if (res.status === 200) {
         console.log("logout successfull");
         localStorage.removeItem("id");
+        toast.success("Logout Success");
       }
-      toast.success("Logout Success");
     } catch (err) {
       console.log(err);
     }

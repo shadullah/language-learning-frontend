@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
       {
         source: "/api/:path*",
         destination:
-          "http://localhost:8000/api/:path*",
+          // "http://localhost:8000/api/:path*",
+          "https://language-learning-backend-seven.vercel.app/api/:path*",
       },
     ];
   },

@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 interface ErrorResponseData {
   message: string;
@@ -46,7 +47,7 @@ const Login = () => {
       console.log(_id);
 
       localStorage.setItem("id", _id);
-
+      toast.success("logged in success", { duration: 3000 });
       router.push("/user");
     } catch (error: unknown) {
       if (isAxiosError(error)) {

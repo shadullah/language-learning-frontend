@@ -31,16 +31,11 @@ const Register = () => {
     // const fullname
 
     try {
-      const response = await axios.post(
-        // "/api/v1/users/register",
-        "/api/v1/users/register",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("/api/v1/users/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (response.status === 201) {
         setSuccess("Registration successful!");
@@ -157,7 +152,7 @@ const Register = () => {
       <p>
         Already registered?{" "}
         <span className="italic underline">
-          <Link href={"/login"}>Login Here</Link>
+          <Link href={"/auth/login"}>Login Here</Link>
         </span>
       </p>
     </div>
