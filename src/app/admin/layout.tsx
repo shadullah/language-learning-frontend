@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div>
-      <nav>Admin Navigation</nav>
+      {/* <Navbar /> */}
       <main>{children}</main>
     </div>
   );
