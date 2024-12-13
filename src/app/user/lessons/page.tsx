@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface Lesson {
@@ -35,20 +36,19 @@ const Lessons = () => {
         <div className="">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 m-3 md:m-12 p-3 md:p-12">
             {lessons.map((lesson) => (
-              <div
-                key={lesson._id}
-                className="bg-gray-800 text-white shadow-md rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
-              >
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2">
-                    Lesson: {lesson.name}
-                  </h2>
-                  <p className="text-sm">Lesson No. {lesson.lessonNum}</p>
-                  <p className="text-sm">
-                    Total Vocabularies: {lesson.vocabularyCount}
-                  </p>
+              <Link key={lesson._id} href={`/user/lessons/${lesson._id}`}>
+                <div className="bg-gray-800 text-white shadow-md rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300">
+                  <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-2">
+                      Lesson: {lesson.name}
+                    </h2>
+                    <p className="text-sm">Lesson No. {lesson.lessonNum}</p>
+                    <p className="text-sm">
+                      Total Vocabularies: {lesson.vocabularyCount}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
