@@ -7,11 +7,11 @@ import Link from "next/link";
 import { LuListTodo } from "react-icons/lu";
 import { MdLogout } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
-import { RxAvatar } from "react-icons/rx";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -19,6 +19,23 @@ const Navbar = () => {
       setUserId(id);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!userId) return;
+      try {
+        const res = await axios.get(`/api/v1/users/${userId}`);
+        const data = res.data.data;
+        if (data.role === "admin") {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, [userId]);
+
   const handleNav = () => {
     setNav(!nav);
   };
@@ -57,7 +74,7 @@ const Navbar = () => {
               className="hidden sm:flex items-center"
             >
               <li className="mx-4 my-6 md:my-0">
-                <Link href="/lessons">Lessons</Link>
+                <Link href="/user/lessons">Lessons</Link>
               </li>
 
               {userId ? (
@@ -65,11 +82,29 @@ const Navbar = () => {
                   <li className="mx-4 my-6 md:my-0">
                     <Link
                       className="flex items-center bg-pink-400 p-3 rounded-full"
-                      href="/tutorials"
+                      href="/user/tutorials"
                     >
                       Tutorials
                     </Link>
                   </li>
+                  {isAdmin ? (
+                    <>
+                      <li className="mx-4 my-6 md:my-0">
+                        <Link href="/admin/users">Manage Users</Link>
+                      </li>
+                      <li className="mx-4 my-6 md:my-0">
+                        <Link href="/admin/lessons">Manage Lessons</Link>
+                      </li>
+                      <li className="mx-4 my-6 md:my-0">
+                        <Link href="/admin/lessons">Manage Vocabularies</Link>
+                      </li>
+                      <li className="mx-4 my-6 md:my-0">
+                        <Link href="/admin/tutorials">Manage Tutorials</Link>
+                      </li>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   {/* <li className="mx-4 my-6 md:my-0">
                     <Link href={`/profile/${localStorage.getItem("userId")}`}>
                       <div className="flex items-center"> */}
@@ -155,8 +190,8 @@ const Navbar = () => {
           >
             <ul>
               <li className="mx-4 my-6 md:my-0">
-                <Link className="text-xl" href="/">
-                  Home
+                <Link className="text-xl" href="/user/lessons">
+                  lesson
                 </Link>
               </li>
 
@@ -165,21 +200,12 @@ const Navbar = () => {
                   <li className="mx-4 my-6 md:my-0">
                     <Link
                       className="flex items-center bg-pink-400 p-3 rounded-full"
-                      href="/tutorials"
+                      href="/user/tutorials"
                     >
                       Tutorials
                     </Link>
                   </li>
-                  <li className="mx-4 my-6 md:my-0">
-                    <Link href="/profile">
-                      <div className="flex items-center">
-                        <RxAvatar className="text-3xl mr-3" />
-                        <div>
-                          {/* <p className="text-xl italic">{users1.username}</p> */}
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
+
                   <li className="mx-4 my-6 md:my-0">
                     <button
                       className="flex items-center"
@@ -195,13 +221,13 @@ const Navbar = () => {
                   <li className="mx-4 my-6 md:my-0">
                     <Link
                       className="flex items-center bg-pink-400 p-3 rounded-full"
-                      href="/login"
+                      href="/auth/login"
                     >
                       Login <CiUnlock className="ml-2 text-2xl font-bold" />
                     </Link>
                   </li>
                   <li className="mx-4 my-6 md:my-0">
-                    <Link href="/signup">Signup</Link>
+                    <Link href="/auth/register">Signup</Link>
                   </li>
                 </>
               )}

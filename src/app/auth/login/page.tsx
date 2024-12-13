@@ -43,12 +43,18 @@ const Login = () => {
 
       const { user } = res.data?.data;
       console.log(res.data?.data);
-      const { _id } = user;
+      const { _id, role } = user;
+      console.log(user);
       console.log(_id);
-
       localStorage.setItem("id", _id);
+
+      if (role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/user/lessons");
+      }
+
       toast.success("logged in success", { duration: 3000 });
-      router.push("/user");
     } catch (error: unknown) {
       if (isAxiosError(error)) {
         if (

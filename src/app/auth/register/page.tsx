@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface ErrorResponseData {
   message: string;
@@ -42,6 +43,9 @@ const Register = () => {
         if (e.currentTarget) {
           e.currentTarget.reset();
         }
+        toast.success("registration complete, login now Please", {
+          duration: 3000,
+        });
         router.push("/auth/login");
       }
     } catch (err: unknown) {
